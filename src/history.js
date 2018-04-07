@@ -1,6 +1,6 @@
 import React from 'react';
 
-const History = ({ currentPage, loadAccount, selectedNum, setSelected, setPage }) => {
+const History = ({ style, viewedAccount, currentPage, loadAccount, selectedNum, setSelected, setPage }) => {
   const listBox = {
     padding: '5px',
     borderTop: '1px solid black',
@@ -21,7 +21,8 @@ const History = ({ currentPage, loadAccount, selectedNum, setSelected, setPage }
     cursor: 'pointer',
   }
   return (
-    <div>
+    <div style={style}>
+      <h2>{viewedAccount}</h2>
       <ul style={transactionList}>
         {       
           currentPage.map((transaction, i) => {

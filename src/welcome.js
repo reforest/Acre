@@ -1,16 +1,11 @@
 import React from 'react';
 
 
-const Welcome = ({account, balance}) => (
-  <div>
+const Welcome = ({style, account, balance}) => (
+  <div style={style}>
     <p>Address: {account.slice(0,5)}...{account.slice(-5)}</p>
-    <p>Balance: {balance}</p>
-    <button>Refresh Balance</button>
-    <ul>
-      <li><button>Pay</button></li>
-      <li><button>Donate</button></li>
-    </ul>
-    <p>History</p>
+    <button>Pay</button>
+    <button>Donate</button>
   </div>
 )
 

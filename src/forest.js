@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Forest = ({}) => (
-  <div>
+const Forest = ({style}) => (
+  <div style={style}>
     <span>Placeholder</span>
   </div>
 )

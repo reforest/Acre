@@ -8,13 +8,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      test: true,
+      account: localStorage.address,
+      viewedAccount: localStorage.address,
       transactions: [],
       currentPage: [],
       currentPageNum: 0,
       selectedNum: '',
-      account: localStorage.address,
-      balance: 500,
       forest : localStorage.forest,
     }
     this.setPage = this.setPage.bind(this);
@@ -33,7 +32,7 @@ class App extends Component {
         temp.push([t.to, t.from, t.value])
       })
       this.setState({
-        account: account,
+        viewedAccount: account,
         transactions: temp, 
         currentPage: temp.slice(0, 5),
       })
@@ -57,11 +56,40 @@ class App extends Component {
   }
   
   render() {
+
+    const forest = {
+      backgroundColor: 'green',
+      gridArea: 'main',
+    }
+
+    const welcome = {
+      backgroundColor: 'yellow',
+      gridArea: 'sidebar',
+    }
+
+    const history =  {
+      backgroundColor: 'red',
+      gridArea: 'footer',
+    }
+
+    const container = {
+      display: 'grid',
+      maxHeight: '100vh',
+      gridTemplateColumns: 'repeat(2, 60% 40%)',
+      gridTemplateRows: 'repeat(4, 25vh)',
+      gridTemplateAreas: '"main sidebar" "main footer" "main footer" "main footer"',
+    }
+
     return (
-      <div>
-        <Forest />
-        <Welcome account = {this.state.account} balance = {this.state.balance} />
-        <History 
+      <div style={container}>
+        <Forest style={forest} />
+        <Welcome
+          style = {welcome}
+          account = {this.state.account}
+        />
+        <History
+          style = {history}
+          viewedAccount = {this.state.viewedAccount}
           currentPage = {this.state.currentPage}
           loadAccount = {this.loadAccount}
           selectedNum = {this.state.selectedNum}
