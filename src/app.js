@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Forest from './forest'
+import Welcome from './welcome'
+import History from './history'
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +19,7 @@ class App extends Component {
     }
     this.setPage = this.setPage.bind(this);
     this.loadAccount = this.loadAccount.bind(this);
-    // this.setSelected = this.setSelected.bind(this);
+    this.setSelected = this.setSelected.bind(this);
   }
   
   componentDidMount() {
@@ -54,63 +57,17 @@ class App extends Component {
   }
   
   render() {
-    
-    const listBox = {
-      padding: '5px',
-      borderTop: '1px solid black',
-      borderLeft: '1px solid black',
-      borderRight: '1px solid black',
-    }
-
-    const closingLine = {
-      borderBottom: '1px solid black',
-    }
-
-    const transactionList = {
-      listStyle: 'none',
-      width: '500px',
-    }
-
-    const cursor = {
-      cursor: 'pointer',
-    }
-
     return (
       <div>
-        {this.state.test &&
-          <div>
-            <p>Address: {this.state.account.slice(0,5)}...{this.state.account.slice(-5)}</p>
-            <p>Balance: {this.state.balance}</p>
-            <button>Refresh Balance</button>
-            <ul>
-              <li><button>Pay</button></li>
-              <li><button>Donate</button></li>
-            </ul>
-            <p>History</p>
-            <ul style={transactionList}>
-              {       
-                this.state.currentPage.map((transaction, i) => {
-                  return (
-                    i < this.state.currentPage.length - 1 ?
-                      <li style={listBox}>
-                        To: <span style={cursor} onClick={(e)=>{this.loadAccount(e.target.innerText)}}>{transaction[0]}</span> <br />
-                        From:  <span style={cursor} onClick={(e)=>{this.loadAccount(e.target.innerText)}}>{transaction[1]}</span> <br />
-                        Value: {transaction[2]} <br />
-                      </li>
-                    :
-                      <li style={Object.assign({}, listBox, closingLine)}>
-                        To: <span style={cursor} onClick={(e)=>{this.loadAccount(e.target.innerText)}}>{transaction[0]}</span> <br />
-                        From:  <span style={cursor} onClick={(e)=>{this.loadAccount(e.target.innerText)}}>{transaction[1]}</span> <br />
-                        Value: {transaction[2]} <br />
-                      </li>
-                  )
-                })
-              }
-            </ul>
-            <input value={this.state.selectedNum} onChange={this.setSelected.bind(this)}/>
-            <button onClick={()=>{this.setPage(this.state.selectedNum)}}>Select Page</button>
-          </div>
-        }
+        <Forest />
+        <Welcome account = {this.state.account} balance = {this.state.balance} />
+        <History 
+          currentPage = {this.state.currentPage}
+          loadAccount = {this.loadAccount}
+          selectedNum = {this.state.selectedNum}
+          setSelected = {this.setSelected}
+          setPage = {this.setPage}
+        />
       </div>
     )
   }
