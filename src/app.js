@@ -15,6 +15,7 @@ class App extends Component {
       currentPageNum: 0,
       selectedNum: '',
       forest : localStorage.forest,
+      loading: false,
     }
     this.setPage = this.setPage.bind(this);
     this.loadAccount = this.loadAccount.bind(this);
@@ -26,6 +27,7 @@ class App extends Component {
   }
 
   loadAccount(account) {
+    this.setState({ loading: true })
     axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${account}&tag=latest`).then(response=>{
       let temp = [];
       response.data.result.forEach((t) => {
@@ -35,6 +37,7 @@ class App extends Component {
         viewedAccount: account,
         transactions: temp, 
         currentPage: temp.slice(0, 5),
+        loading: false,
       })
     });
   }
@@ -56,7 +59,6 @@ class App extends Component {
   }
   
   render() {
-
     const forest = {
       backgroundColor: 'green',
       gridArea: 'main',
@@ -95,6 +97,7 @@ class App extends Component {
           selectedNum = {this.state.selectedNum}
           setSelected = {this.setSelected}
           setPage = {this.setPage}
+          loading = {this.state.loading}
         />
       </div>
     )
