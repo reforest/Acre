@@ -46,9 +46,11 @@ class Welcome extends Component {
       pageOneLeft: '0px',
       pageTwoLeft: '300px',
       pageThreeLeft: '600px',
+      pageFourLeft: '900px',
       incomingAddressInput: '',
       sentAmountInput: '',
       donationAmountInput: '',
+      wallet: 'celadon_wallet',
     }
     this.shrinkLabel = this.shrinkLabel.bind(this);
     this.fungus = new Fungus({
@@ -65,16 +67,26 @@ class Welcome extends Component {
         pageOneLeft: '-300px',
         pageTwoLeft: '0px',
         pageThreeLeft: '300px',
+        pageFourLeft: '600px',
       })
     } else if (page === 'pageTwo') {
       this.setState({
         pageOneLeft: '-600px',
         pageTwoLeft: '-300px',
         pageThreeLeft: '0px',
+        pageFourLeft: '300px',
+        
       })
     } else if (page === 'pageThree') {
       console.log('submitted')
-    }
+    } else if (e === 'done') {
+      this.setState({
+        pageOneLeft: '-900px',
+        pageTwoLeft: '-600px',
+        pageThreeLeft: '-300px',
+        pageFourLeft: '0px',
+        
+      })
   }
 
   cancel() {
@@ -85,6 +97,8 @@ class Welcome extends Component {
       incomingAddressInput: '',
       sentAmountInput: '',
       donationAmountInput: '',
+      wallet: 'celadon_wallet',
+      attemptedTransaction: 'Success!'
     })  
   }
 
@@ -110,21 +124,28 @@ class Welcome extends Component {
   setPercentage(e) {
     let newValue = '';
     let amount = Number(this.state.sentAmountInput);
-    if (e.target.innerText === '20%') {
-      newValue = amount * .2;
-    } else if (e.target.innerText === '10%') {
-      newValue = amount * .1;
-    } else if (e.target.innerText === '5%') {
-      newValue = amount * .05;
+    if (e.target.innerText === '3%') {
+      newValue = amount * .03;
+      this.shrinkLabel(true, true, 'donationAmount');
+    } else if (e.target.innerText === '2%') {
+      newValue = amount * .02;
+      this.shrinkLabel(true, true, 'donationAmount');      
+    } else if (e.target.innerText === '1%') {
+      newValue = amount * .01;
+      this.shrinkLabel(true, true, 'donationAmount');      
+    } else {
+      this.shrinkLabel(false, true, 'donationAmount');  
     }
     this.setState({
       donationAmountInput: String(newValue)
     })
   }
 
+  updateWallet(e){
+    this.setState({wallet: e.target.value})
+  }
+
   createTransaction() {
-      // <p>Send {this.state.sentAmountInput} From {this.props.account} to {this.state.incomingAddressInput}?</p>
-      // <p>And Donate {this.state.donationAmountInput} to plant more trees.</p>
       const {
           sentAmountInput,
           acccount,
@@ -157,7 +178,7 @@ class Welcome extends Component {
                 width: '300px',
                 left: this.state.pageOneLeft,
                 backgroundColor: 'grey',
-                transition: '2s ease left',
+                transition: '0.2s ease left',
               }
             }
           >
@@ -251,14 +272,20 @@ class Welcome extends Component {
                 width: '300px',
                 left: this.state.pageTwoLeft,
                 backgroundColor: 'grey',
-                transition: '2s ease left',
+                transition: '0.2s ease left',
               }
             }
           >
-            <p>Donate to Q?</p>
-            <button style={{marginLeft: '20px'}} onClick={this.setPercentage.bind(this)}>20%</button>
-            <button onClick={this.setPercentage.bind(this)}>10%</button>
-            <button style={{paddingLeft: '6px', paddingRight: '6px'}} onClick={this.setPercentage.bind(this)}>5%</button>
+            <p style={{marginLeft: '20px'}}>Donate to:  
+              <select onChange={this.updateWallet.bind(this)} style={{marginLeft: '17px'}}>
+                <option>celadon_wallet</option>
+                <option>cosmos_wallet</option>
+                <option>impacthub_wallet</option>
+              </select>
+            </p>
+            <button style={{marginLeft: '20px', marginRight: '5px'}} onClick={this.setPercentage.bind(this)}>3%</button>
+            <button style={{marginRight: '5px'}} onClick={this.setPercentage.bind(this)}>2%</button>
+            <button style={{paddingLeft: '6px', paddingRight: '6px', marginRight: '5px'}} onClick={this.setPercentage.bind(this)}>1%</button>
             <button style={{paddingLeft: '6px', paddingRight: '6px'}} onClick={this.setPercentage.bind(this)}>Custom</button>
             <br />
             <div style={styles.inputContainer}>
@@ -300,16 +327,35 @@ class Welcome extends Component {
                 width: '300px',
                 left: this.state.pageThreeLeft,
                 backgroundColor: 'grey',
-                transition: '2s ease left',
+                transition: '0.2s ease left',
               }
             }
           >
-            <p>Send {this.state.sentAmountInput} From {this.props.account} to {this.state.incomingAddressInput}?</p>
-            <p>And Donate {this.state.donationAmountInput} to plant more trees.</p>
-            <button style={styles.firstButton} onClick={this.createTransaction.bind(this)} type="submit">Confirm</button>
+            <p style={{marginLeft: '20px'}}>
+              Send: {this.state.sentAmountInput}<br />
+              From: {this.props.account.slice(0,5)}...{this.props.account.slice(-5)}<br />
+              to: {this.state.incomingAddressInput.slice(0,5)}...{this.state.incomingAddressInput.slice(-5)}?
+            </p>
+            <p style={{marginLeft: '20px'}}>And Donate {this.state.donationAmountInput.slice(0,5)}{this.state.donationAmountInput.length > 6 && '...'} to {this.state.wallet}.</p>
+            <button style={styles.firstButton} onClick={this.advance.bind(this)} type="submit">Confirm</button>
             <button style={styles.secondButton} onClick={this.cancel.bind(this)} type="reset">Cancel</button>
           </div>
-
+          <div 
+            id='pageFour' 
+            style={
+              {
+                zIndex: '1',
+                position: 'absolute',
+                height: '300px',
+                width: '300px',
+                left: this.state.pageFourLeft,
+                backgroundColor: 'grey',
+                transition: '0.2s ease left',
+              }
+            }
+          >
+            <h2>{this.state.attemptedTransaction}></h2>
+          </div>
         </div>
       </div>
     )
