@@ -59,11 +59,11 @@ class App extends Component {
   loadAccount(account) {
     // console.log('hello', this.state);
     this.setState({ loading: true });
-    axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${account}&tag=latest&offset=10`)
+    axios.get(`https://api.etherscan.io/api?module=account&action=txlist&address=${account}&tag=latest&offset=500&page=1`)
         .then(response => {
             let temp = [];
+            console.log(response.data);
             response.data.result.forEach((t) => {
-                console.log(t);
                 temp.push([t.to, t.from, '.' + t.value])
             });
             this.setState({
@@ -72,8 +72,8 @@ class App extends Component {
                 currentPage: temp.slice(0, 5),
                 loading: false,
             });
-            let forestHeight = (temp.length - 1) / 5 >= 5 ? 10 : (temp.length - 1) / 5 < 4 ? 4 : (temp.length - 1) / 5;
-            let forestWidth = (temp.length - 1) / 5 >= 5 ? 12 : (temp.length - 1) / 5 < 4 ? 4 : (temp.length - 1) / 5;
+            let forestHeight = (temp.length - 1) / 10 >= 5 ? 10 : (temp.length - 1) / 10 < 4 ? 4 : (temp.length - 1) / 10;
+            let forestWidth = (temp.length - 1) / 10 >= 5 ? 12 : (temp.length - 1) / 10 < 4 ? 4 : (temp.length - 1) / 10;
             console.log('h x W', forestHeight, forestWidth, temp);
             //imports the setup from stage.js
             let scene = new Scene();
