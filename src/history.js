@@ -37,6 +37,7 @@ const styles = {
   },
   go: {
     height: '100%',
+    cursor:'pointer',
   }
 };
 
@@ -79,6 +80,7 @@ class History extends Component {
       :
         <div style={this.props.style}>
           <h2 style={{ fontSize: '1em', textAlign: 'center', textDecoration: 'underline' }}>{this.props.viewedAccount}</h2>
+          <h4 style={{ fontSize: '1em', textAlign: 'center', marginBottom: '5px' }}>Page {this.props.currentPageNum}</h4>
           <ul style={styles.transactionList}>
             {       
               this.props.currentPage.map((transaction, i) => {
@@ -100,7 +102,7 @@ class History extends Component {
             }
           </ul>
           <div style={styles.buttonContainer}>
-            <button onClick={()=>{this.props.setPage(0)}} >0</button>
+            <button style={{cursor:'pointer'}} onClick={()=>{this.props.setPage(0)}} >0</button>
             <div style={styles.inputContainer}>
               <input 
                 id="donationAmount"
@@ -128,7 +130,7 @@ class History extends Component {
               >Select Page</label>
               <button style={styles.go} onClick={()=>{this.props.setPage(this.props.selectedNum)}}>GO!</button>
             </div>
-            <button onClick={()=>{this.props.setPage(Math.ceil(this.props.transactions.length / 5) - 1)}} >{Math.ceil(this.props.transactions.length / 5) - 1}</button>              
+            <button style={{cursor:'pointer'}} onClick={()=>{this.props.setPage(Math.ceil(this.props.transactions.length / 5) - 1)}} >{Math.ceil(this.props.transactions.length / 5) - 1}</button>              
           </div>
         </div>
     )
