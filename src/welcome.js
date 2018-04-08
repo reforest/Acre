@@ -61,6 +61,16 @@ class Welcome extends Component {
   }
 
   advance(e) {
+  if (e === 'done') {
+      this.setState({
+          pageOneLeft: '-900px',
+          pageTwoLeft: '-600px',
+          pageThreeLeft: '-300px',
+          pageFourLeft: '0px',
+
+      });
+      return;
+    }
     let page = e.target.parentElement.id;
     if (page === 'pageOne') {
       this.setState({
@@ -79,14 +89,7 @@ class Welcome extends Component {
       })
     } else if (page === 'pageThree') {
       console.log('submitted')
-    } else if (e === 'done') {
-      this.setState({
-        pageOneLeft: '-900px',
-        pageTwoLeft: '-600px',
-        pageThreeLeft: '-300px',
-        pageFourLeft: '0px',
-        
-      })
+    }
   }
 
   cancel() {
@@ -151,16 +154,23 @@ class Welcome extends Component {
           acccount,
           incomingAddressInput,
           donationAmountInput,
+          wallet,
       } = this.state;
       const donationPercentage = donationAmountInput / sentAmountInput;
 
       const txPayload = {
-          address: incomingAddressInput,
           amount: sentAmountInput,
+          to: incomingAddressInput,
+          org: wallet,
           feePortion: donationPercentage
       };
-      console.log('~~~~~~~~~~~', txPayload);
-      this.fungus.createTransaction(this.privKey, txPayload);
+      console.log('~~~~~~~ tx payload', txPayload);
+      const newState = this.fungus.createTransaction(this.privKey, txPayload);
+      if (newState) {
+        console.log(newState);
+        this.setState('attemptedTransaction', 'Success!');
+        this.advance('done');
+      }
   }
 
   render() {
@@ -337,7 +347,7 @@ class Welcome extends Component {
               to: {this.state.incomingAddressInput.slice(0,5)}...{this.state.incomingAddressInput.slice(-5)}?
             </p>
             <p style={{marginLeft: '20px'}}>And Donate {this.state.donationAmountInput.slice(0,5)}{this.state.donationAmountInput.length > 6 && '...'} to {this.state.wallet}.</p>
-            <button style={styles.firstButton} onClick={this.advance.bind(this)} type="submit">Confirm</button>
+            <button style={styles.firstButton} onClick={this.createTransaction.bind(this)} type="submit">Confirm</button>
             <button style={styles.secondButton} onClick={this.cancel.bind(this)} type="reset">Cancel</button>
           </div>
           <div 
@@ -354,7 +364,7 @@ class Welcome extends Component {
               }
             }
           >
-            <h2>{this.state.attemptedTransaction}></h2>
+            <h2>{this.state.attemptedTransaction}</h2>
           </div>
         </div>
       </div>
