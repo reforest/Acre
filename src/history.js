@@ -1,6 +1,6 @@
 import React from 'react';
 
-const History = ({ style, viewedAccount, currentPage, loadAccount, selectedNum, setSelected, setPage, loading }) => {
+const History = ({ style, viewedAccount, currentPage, loadAccount, selectedNum, setSelected, setPage, loading, transactions }) => {
 
   const transactionList = {
     listStyle: 'none',
@@ -57,8 +57,12 @@ const History = ({ style, viewedAccount, currentPage, loadAccount, selectedNum, 
           }
         </ul>
         <div style={buttonContainer}>
-          <input value={selectedNum} onChange={setSelected}/>
-          <button onClick={()=>{setPage(selectedNum)}}>Select Page</button>
+          <button>0</button>
+          <div style={inputContainer}>
+            <input id="donationAmount" type="text" style={inputText} required />
+            <label for="donationAmount" style={shrinking}>Amount</label>
+          </div>
+          <button>{Math.ceil(transactions.length / 5) - 1}</button>          
         </div>
       </div>      
   )

@@ -98,6 +98,7 @@ class App extends Component {
           setSelected = {this.setSelected}
           setPage = {this.setPage}
           loading = {this.state.loading}
+          transactions = {this.state.transactions}
         />
       </div>
     )
