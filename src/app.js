@@ -90,7 +90,7 @@ class App extends Component {
           account={this.state.account}
         />
         <History
-          style={history}
+          style={styles.history}
           viewedAccount={this.state.viewedAccount}
           currentPage={this.state.currentPage}
           loadAccount={this.loadAccount}
