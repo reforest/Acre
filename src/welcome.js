@@ -278,8 +278,8 @@ class Welcome extends Component {
               }
             }
           >
-            <p>Send X From Y to Z.</p>
-            <p>Donate X to Q.</p>
+            <p>Send {this.state.sentAmountInput} From {this.props.account} to {this.state.incomingAddressInput}?</p>
+            <p>And Donate {this.state.donationAmountInput} to plant more trees.</p>
             <button style={styles.firstButton} onClick={this.advance.bind(this)} type="submit">Confirm</button>
             <button style={styles.secondButton} onClick={this.cancel.bind(this)} type="reset">Cancel</button>
           </div>
