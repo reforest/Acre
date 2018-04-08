@@ -7,8 +7,9 @@ const styles = {
     position: 'relative',
     height: '300px',
     width: '300px',
-    border: '1px solid black',
+    boxShadow: '0px 0px 50px -2px rgba(0,0,0,0.1)',
     overflow: 'hidden',
+    borderRadius: '5px'
   },
   inputContainerFirst: {
     marginTop: '8px',
@@ -40,9 +41,9 @@ class Welcome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      incomingAddress: ['20px', '6px', '16px', '1'],
-      sentAmount: ['20px', '6px', '16px', '1'],
-      donationAmount: ['20px', '6px', '16px', '1'],
+      incomingAddress: ['30px', '6px', '16px', '1'],
+      sentAmount: ['30px', '6px', '16px', '1'],
+      donationAmount: ['30px', '6px', '16px', '1'],
       pageOneLeft: '0px',
       pageTwoLeft: '300px',
       pageThreeLeft: '600px',
@@ -89,13 +90,13 @@ class Welcome extends Component {
   }
 
   shrinkLabel(focus, text, id) {
-    if (focus ) {
+    if (focus) {
       let labelStyle = {};
-      labelStyle[id] = ['60%', '4px', '8px', '.6'];
+      labelStyle[id] = ['30px', '4px', '8px', '.6'];
       this.setState(labelStyle);
     } else if (text === true) {
       let labelStyle = {};
-      labelStyle[id] = ['20%', '6px', '16px', '1'];
+      labelStyle[id] = ['30px', '6px', '16px', '1'];
       this.setState(labelStyle)
     }
   }

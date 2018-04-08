@@ -4,6 +4,8 @@ import Forest from './forest'
 import Welcome from './welcome'
 import History from './history'
 
+localStorage.setItem('address', '0x78b22dfe221d0db29678c35dfb1f0e702d2439a0bc624b5ac6c71e4a000ca8c4');
+
 const { Scene } = require('./framework/Scene.js');
 const THREE = require('three');
 const { objects } = require('./framework/objects.js');
