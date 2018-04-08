@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Fungus from 'reforest-fungus';
 
 const styles = {
   container: {
@@ -50,6 +51,11 @@ class Welcome extends Component {
       donationAmountInput: '',
     }
     this.shrinkLabel = this.shrinkLabel.bind(this);
+    this.fungus = new Fungus({
+        lotionUrl: 'http://localhost:3000'
+    });
+
+    this.privKey = this.fungus.generateStaticPrivateKey(1);
   }
 
   advance(e) {
@@ -114,6 +120,26 @@ class Welcome extends Component {
     this.setState({
       donationAmountInput: String(newValue)
     })
+  }
+
+  createTransaction() {
+      // <p>Send {this.state.sentAmountInput} From {this.props.account} to {this.state.incomingAddressInput}?</p>
+      // <p>And Donate {this.state.donationAmountInput} to plant more trees.</p>
+      const {
+          sentAmountInput,
+          acccount,
+          incomingAddressInput,
+          donationAmountInput,
+      } = this.state;
+      const donationPercentage = donationAmountInput / sentAmountInput;
+
+      const txPayload = {
+          address: incomingAddressInput,
+          amount: sentAmountInput,
+          feePortion: donationPercentage
+      };
+      console.log('~~~~~~~~~~~', txPayload);
+      this.fungus.createTransaction(this.privKey, txPayload);
   }
 
   render() {
@@ -280,7 +306,7 @@ class Welcome extends Component {
           >
             <p>Send {this.state.sentAmountInput} From {this.props.account} to {this.state.incomingAddressInput}?</p>
             <p>And Donate {this.state.donationAmountInput} to plant more trees.</p>
-            <button style={styles.firstButton} onClick={this.advance.bind(this)} type="submit">Confirm</button>
+            <button style={styles.firstButton} onClick={this.createTransaction.bind(this)} type="submit">Confirm</button>
             <button style={styles.secondButton} onClick={this.cancel.bind(this)} type="reset">Cancel</button>
           </div>
 
